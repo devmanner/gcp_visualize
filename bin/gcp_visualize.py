@@ -6,7 +6,20 @@ from graphviz import Graph
 
 def url2id(url):
     items = url.split("/")
-    return items[9]+items[6]+items[8]+items[10]
+    return items[3]+"_"+items[6]+"_"+items[8]+"_"+items[10]+"_"+items[11]
+
+#def url2zone(url):
+#    items = url.split("/")
+#    return items[8]
+
+def all_zones(json):
+    zones = set()
+    for proj in json:
+        for i in proj['instances']:
+            zones.add(i['zone'])
+        for d in proj['disks']:
+            zones.add(d['zone'])
+    return list(zones)
 
 def instance(graph, instance):
     instance_id = url2id(instance['selfLink'])
@@ -31,18 +44,24 @@ def disk(graph, disk):
 def add_disk(graph, disk_id, disk_label):
     graph.node(disk_id, label=disk_label, shape='cylinder')
 
-
 g = Graph('G', filename='cluster.gv')
 
 with open(sys.argv[1]) as json_file:
-	json = json.load(json_file)
-	for proj in json:
-		print proj['project']
-		print proj['instances']	
-		for i in proj['instances']:
-			instance(g, i)
-		for d in proj['disks']:
-			disk(g, d)
+    json = json.load(json_file)
+    for zone in all_zones(json):
+        print "ZONE:" + zone
+        with g.subgraph(name='cluster_zone_' + zone) as z:
+            z.attr(label=zone, shape="tab")
+            for proj in json:
+                print proj['project']
+	        print proj['instances']	
+	        for i in proj['instances']:
+                    if i['zone'] == zone:
+	                instance(z, i)
+	        for d in proj['disks']:
+                    if d['zone'] == zone:
+	                disk(z, d)
+
 
 g.view()
 
