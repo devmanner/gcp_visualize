@@ -19,11 +19,11 @@ mkdir $projectdir
 
 for p in $(gcloud projects list | cut -f 1 -d " "| grep -v PROJECT_ID); do
 	gcloud compute instances list --format=json --project=$p > $instances
-    gcloud compute disks list --format=json --project=$p > $disks
-    gcloud compute firewall-rules list --format=json --project=$p > $firewall_rules
-    gcloud compute networks list --format=json --project=$p > $networks
-    gcloud compute routes list --format=json --project=$p > $routes
-
+	gcloud compute disks list --format=json --project=$p > $disks
+	gcloud compute firewall-rules list --format=json --project=$p > $firewall_rules
+	gcloud compute networks list --format=json --project=$p > $networks
+	gcloud compute routes list --format=json --project=$p > $routes
+	
 	jq -s '{"project": "'$p'", "disks": .[0], "firewall-rules": .[1], "instances": .[2], "networks": .[3], "routes": .[4]}' $disks $firewall_rules $instances $networks $routes > $projectdir"/"$p".json"
 done
 
