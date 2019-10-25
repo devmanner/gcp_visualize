@@ -1,0 +1,48 @@
+[
+   {
+      "project" : "my-proj",
+      "instances" : [
+         {
+            "name" : "some-name",
+	    "zone": "europe-west1-c",
+	    "selfLink": "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-west1/backendServices/instance/some-name",
+            "networkInterfaces" : [
+               {
+                  "networkIP" : "1.0.0.1"
+               }
+            ],
+            "disks" : [
+               {
+                  "source" : "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-west1/backendServices/disks/some-disk",
+                  "deviceName" : "some-disk"
+               }
+            ]
+         },
+ 	 {
+            "name" : "some-other-name",
+            "zone": "europe-north1-a",
+            "selfLink": "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-north1/backendServices/instance/some-other-name",
+            "networkInterfaces" : [
+               {
+                  "networkIP" : "1.0.0.2"
+               }
+            ],
+            "disks" : [
+               {
+                  "source" : "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-north1/backendServices/disks/some-other-disk",
+                  "deviceName" : "some-other-disk"
+               }
+            ]
+         }
+      ],
+      "disks": [
+	      {"selfLink": "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-west1/backendServices/disks/some-disk",
+	      "zone": "europe-west1-c",
+      	      "name": "some-disk"},
+	      {"selfLink": "https://www.googleapis.com/compute/v1/projects/my-proj/regions/europe-north1/backendServices/disks/some-other-disk",
+                "zone": "europe-north1-a",
+                "name": "some-other-disk"}
+      ]
+   }
+]
+
